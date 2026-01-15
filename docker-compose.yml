@@ -26,7 +26,7 @@ services:
       context: .
     container_name: Bank-app
     ports:
-      - "8080:8080"
+      - "8090:8080"
     environment:
       - SPRING_DATASOURCE_USERNAME=root
       - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/BankDB?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
@@ -37,7 +37,7 @@ services:
     networks:
       - bank-ntw
     healthcheck:
-      test: ["CMD-SHELL","curl -f http://localhost:8090/actuator/health || exit 1"]
+      test: ["CMD-SHELL","curl -f http://localhost:8080/actuator/health || exit 1"]
       interval: 10s
       timeout: 5s
       retries: 5
