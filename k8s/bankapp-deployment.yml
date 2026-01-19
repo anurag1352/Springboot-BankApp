@@ -1,0 +1,48 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: bank-deployment
+  namespace: bank-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: bankapp
+  template:
+    metadata:
+      labels:
+        app: bankapp
+    spec:
+      containers:
+      - name: bankapp-ctr
+        image: anurag904/springboot-bankapp:latest
+        env:
+          - name: SPRING_DATASOURCE_URL
+            valueFrom:
+              configMapKeyRef:
+                name: bankapp-config
+                key: SPRING_DATASOURCE_URL
+          - name: SPRING_DATASOURCE_USERNAME
+            valueFrom:
+              configMapKeyRef:
+                name: bankapp-config
+                key: SPRING_DATASOURCE_USERNAME
+          - name: MYSQL_DATABASE
+            valueFrom:
+              configMapKeyRef:
+                name: bankapp-config
+                key: MYSQL_DATABASE
+          - name: SPRING_DATASOURCE_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: bankapp-secrets
+                key: MYSQL_ROOT_PASSWORD
+        ports:
+          - containerPort: 8080
+        resources:
+          requests:
+            cpu: "250m"
+            memory: "512Mi"
+          limits:
+            cpu: "500m"
+            memory: "1Gi"
