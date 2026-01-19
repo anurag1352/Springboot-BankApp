@@ -10,7 +10,7 @@ services:
       - MYSQL_ROOT_PASSWORD=Test@123
       - MYSQL_DATABASE=BankDB
     volumes:
-      - bank-data:/var/lib/mysql  
+      - bank-data:/var/lib/mysql
     networks:
       - bank-ntw
     healthcheck:
@@ -22,8 +22,7 @@ services:
 
 
   main-app:
-    build:
-      context: .
+    image: anurag904/springboot-bankapp:latest
     container_name: Bank-app
     ports:
       - "8090:8080"
